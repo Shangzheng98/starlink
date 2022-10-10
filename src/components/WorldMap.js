@@ -10,6 +10,7 @@ import * as d3Scale from "d3-scale";
 import { timeFormat as d3TimeFormat } from "d3-time-format";
 
 import {
+    BASE_URL,
     WORLD_MAP_URL,
     SATELLITE_POSITION_URL,
     SAT_API_KEY
@@ -61,7 +62,7 @@ class WorldMap extends Component {
 
             const urls = this.props.satData.map(sat => {
                 const { satid } = sat;
-                const url = `/api/${SATELLITE_POSITION_URL}/${satid}/${latitude}/${longitude}/${elevation}/${endTime}/&apiKey=${SAT_API_KEY}`;
+                const url = `${BASE_URL}/${SATELLITE_POSITION_URL}/${satid}/${latitude}/${longitude}/${elevation}/${endTime}/&apiKey=${SAT_API_KEY}`;
 
                 return axios.get(url);
             });
@@ -91,6 +92,7 @@ class WorldMap extends Component {
     track = data => {
         if (!data[0].hasOwnProperty("positions")) {
             throw new Error("no position data");
+            return;
         }
 
         const len = data[0].positions.length;
